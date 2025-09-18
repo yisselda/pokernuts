@@ -1,6 +1,6 @@
 {
   "name": "poker-nuts-practice",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Minimal CLI for practicing poker nuts identification on flop scenarios",
   "keywords": [
     "poker",
