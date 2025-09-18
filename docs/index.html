@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🃏 Poker Nuts Practice - Live Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .game {
+            padding: 30px;
+        }
+
+        .flop-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .deal-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .deal-button:hover {
+            background: #2980b9;
+        }
+
+        .flop-display {
+            font-size: 2rem;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            letter-spacing: 2px;
+        }
+
+        .guess-section {
+            margin: 30px 0;
+        }
+
+        .guess-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-family: monospace;
+        }
+
+        .guess-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .submit-button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #229954;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .result.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .help-text {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .links {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .links a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🃏 Poker Nuts Practice</h1>
+            <p>Master poker nuts identification with this interactive trainer</p>
+        </div>
+
+        <div class="game">
+            <div class="help-text">
+                <strong>How to play:</strong> Click "Deal New Flop" to get 3 cards, then guess which 2-card combinations make the nuts (best possible hand).
+                Use formats like: <code>AA</code>, <code>KQs</code>, <code>A5o</code>, or exact <code>AhQh</code>.
+            </div>
+
+            <div class="flop-section">
+                <button class="deal-button" onclick="dealNewFlop()">Deal New Flop</button>
+                <div class="flop-display" id="flop-display">Click "Deal New Flop" to start!</div>
+            </div>
+
+            <div class="guess-section">
+                <input
+                    type="text"
+                    class="guess-input"
+                    id="guess-input"
+                    placeholder="Enter your guess (AA, KQs, A5o, AhQh)"
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button class="submit-button" onclick="submitGuess()">Submit Guess</button>
+            </div>
+
+            <div id="result-display"></div>
+        </div>
+
+        <div class="links">
+            <a href="https://github.com/yisselda/pokernuts" target="_blank">📦 GitHub Repository</a>
+            <a href="https://www.npmjs.com/package/poker-nuts-practice" target="_blank">📋 npm Package</a>
+            <a href="https://github.com/yisselda/pokernuts/tree/main/examples" target="_blank">💻 Code Examples</a>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the poker engine directly from npm CDN
+        import { createRNG, dealFlop, validateGuess, formatCard } from 'https://cdn.skypack.dev/poker-nuts-practice/engine';
+
+        // Make functions global for onclick handlers
+        window.rng = createRNG();
+        window.currentFlop = [];
+
+        window.dealNewFlop = function() {
+            window.currentFlop = dealFlop(window.rng);
+            const flopDisplay = document.getElementById('flop-display');
+            flopDisplay.textContent = `Flop: ${window.currentFlop.map(formatCard).join(' ')}`;
+
+            // Clear previous results
+            document.getElementById('result-display').innerHTML = '';
+            document.getElementById('guess-input').value = '';
+        }
+
+        window.submitGuess = function() {
+            const guess = document.getElementById('guess-input').value.trim();
+            const resultDisplay = document.getElementById('result-display');
+
+            if (!guess || window.currentFlop.length === 0) {
+                resultDisplay.innerHTML = '<div class="result incorrect">Please deal a flop and enter a guess!</div>';
+                return;
+            }
+
+            const result = validateGuess(window.currentFlop, guess);
+
+            const resultClass = result.correct ? 'correct' : 'incorrect';
+            const icon = result.correct ? '✅' : '❌';
+
+            let html = `
+                <div class="result ${resultClass}">
+                    <div><strong>${icon} ${result.correct ? 'Correct!' : 'Incorrect'}</strong></div>
+                    <div>${result.reason}</div>
+            `;
+
+            if (!result.correct) {
+                html += `<div style="margin-top: 10px;"><strong>Nuts:</strong> ${result.canonicalNuts.join(', ')}</div>`;
+            }
+
+            html += '</div>';
+            resultDisplay.innerHTML = html;
+        }
+
+        window.handleKeyPress = function(event) {
+            if (event.key === 'Enter') {
+                window.submitGuess();
+            }
+        }
+    </script>
+</body>
+</html>

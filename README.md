@@ -2,6 +2,10 @@
 
 A minimal TypeScript CLI for practicing poker nuts identification on flop scenarios.
 
+## 🎮 [**Try the Live Demo!**](https://yisselda.github.io/pokernuts/)
+
+[![Live Demo](https://img.shields.io/badge/🎮_Live_Demo-Try_Now!-brightgreen?style=for-the-badge)](https://yisselda.github.io/pokernuts/)
+
 ## Features
 
 - **Random flop generation** with seedable RNG for reproducible games
@@ -74,6 +78,61 @@ Guess: 77
 - **RNG**: Custom seedable Linear Congruential Generator
 - **Performance**: Single nuts calculation <100ms
 - **Hand Types**: Royal flush, quads, full house, flush, straight, trips, two pair, pair, high card
+
+## Programmatic API
+
+Use the poker engine in your own applications:
+
+### React/React Native
+```jsx
+import { createRNG, dealFlop, evaluateNuts, validateGuess } from 'poker-nuts-practice/engine'
+
+function PokerGame() {
+  const [rng] = useState(() => createRNG())
+  const [flop, setFlop] = useState([])
+
+  const dealNewFlop = () => setFlop(dealFlop(rng))
+
+  const handleGuess = (guess) => {
+    const result = validateGuess(flop, guess)
+    // result.correct, result.reason, result.canonicalNuts
+    return result
+  }
+
+  return <YourPokerUI />
+}
+```
+
+### Node.js/Custom CLI
+```js
+import { createRNG, dealFlop, evaluateNuts, formatCard } from 'poker-nuts-practice/engine'
+
+const rng = createRNG(42) // Optional seed for deterministic results
+const flop = dealFlop(rng)
+const nuts = evaluateNuts(flop)
+
+console.log(`Flop: ${flop.map(formatCard).join(' ')}`)
+console.log(`Nuts: ${nuts.patterns.join(', ')} (${nuts.explanation})`)
+```
+
+### Available Functions
+- `createRNG(seed?)` - Create seedable random number generator
+- `dealFlop(rng)` - Deal 3-card flop
+- `evaluateNuts(flop)` - Find nuts for given flop
+- `validateGuess(flop, guess)` - Validate user guess
+- `formatCard(card)` - Format card as "Ah", "Ks", etc.
+- `parseCard(string)` - Parse card string to Card object
+
+### 🎯 Complete Examples
+
+See the [examples/](https://github.com/yisselda/pokernuts/tree/main/examples) directory for full working implementations:
+
+- **React Web App** - Interactive UI with real-time validation
+- **React Native** - Mobile poker practice app
+- **Node.js Bot** - Automated flop analysis
+- **Custom CLI** - Build your own poker tools
+
+Each example is ready to run with `npm install && npm start`!
 
 ## Development
 

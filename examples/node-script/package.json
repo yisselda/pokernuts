@@ -1,0 +1,11 @@
+{
+  "name": "poker-nuts-node-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node simple-bot.js"
+  },
+  "dependencies": {
+    "poker-nuts-practice": "^1.0.0"
+  }
+}
