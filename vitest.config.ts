@@ -6,7 +6,16 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
-      exclude: ['node_modules/', 'dist/', 'coverage/', '**/*.d.ts', 'vitest.config.ts'],
+      exclude: [
+        'node_modules/',
+        'dist/',
+        'coverage/',
+        '**/*.d.ts',
+        'vitest.config.ts',
+        'eslint.config.js',
+        'examples/**/*',
+        'docs/**/*',
+      ],
       thresholds: {
         global: {
           branches: 90,

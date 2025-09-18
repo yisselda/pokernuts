@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 
 import { createInterface } from 'readline'
-import { createRNG, dealFlop, validateGuess, formatCard } from './engine.js'
+import { createRNG, dealFlop, validateGuess, formatCard, type Card, type RNG } from './engine.js'
 
-function parseArgs(): { seed?: number } {
-  const args = process.argv.slice(2)
+export interface ParsedArgs {
+  seed?: number
+}
+
+export function parseArgs(args: string[] = process.argv.slice(2)): ParsedArgs {
   let seed: number | undefined
 
   for (const arg of args) {
     if (arg.startsWith('-seed=')) {
       const seedStr = arg.split('=')[1]
       if (!seedStr) {
-        console.error('Invalid seed format. Use -seed=NUMBER')
-        process.exit(1)
+        throw new Error('Invalid seed format. Use -seed=NUMBER')
       }
       seed = parseInt(seedStr, 10)
       if (isNaN(seed)) {
-        console.error('Invalid seed value')
-        process.exit(1)
+        throw new Error('Invalid seed value')
       }
     }
   }
@@ -25,53 +26,91 @@ function parseArgs(): { seed?: number } {
   return { seed }
 }
 
-function main() {
-  const { seed } = parseArgs()
-  const rng = createRNG(seed)
-
+export function printIntroduction(): void {
   console.log('🃏 Poker Nuts Practice CLI')
   console.log('Type your guess like: AA, KQs, A5o, or exact AhQh')
   console.log("Type 'q' to quit\n")
+}
 
-  const rl = createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  })
+export function formatFlopDisplay(flop: Card[]): string {
+  return `Flop: ${flop.map(formatCard).join(' ')}`
+}
 
-  function playRound() {
+export function isQuitCommand(input: string): boolean {
+  return input.trim().toLowerCase() === 'q'
+}
+
+export function isEmptyInput(input: string): boolean {
+  return input.trim() === ''
+}
+
+export function processGuess(flop: Card[], guess: string): {
+  correct: boolean
+  message: string
+} {
+  const result = validateGuess(flop, guess)
+
+  if (result.correct) {
+    return {
+      correct: true,
+      message: `✅ Correct! ${result.reason}`
+    }
+  } else {
+    return {
+      correct: false,
+      message: `❌ ${result.reason}`
+    }
+  }
+}
+
+export function createGameLoop(rng: RNG, rl: any): () => void {
+  function playRound(): void {
     const flop = dealFlop(rng)
-    const flopStr = flop.map(formatCard).join(' ')
+    console.log(formatFlopDisplay(flop))
 
-    console.log(`Flop: ${flopStr}`)
-
-    rl.question('Guess the nuts: ', (input) => {
-      const guess = input.trim()
-
-      if (guess.toLowerCase() === 'q') {
+    rl.question('Guess the nuts: ', (input: string) => {
+      if (isQuitCommand(input)) {
         console.log('Thanks for playing! 👋')
         rl.close()
         return
       }
 
-      if (!guess) {
+      if (isEmptyInput(input)) {
         console.log('Please enter a guess or "q" to quit\n')
         playRound()
         return
       }
 
-      const result = validateGuess(flop, guess)
-
-      if (result.correct) {
-        console.log(`✅ Correct! ${result.reason}\n`)
-      } else {
-        console.log(`❌ ${result.reason}\n`)
-      }
-
+      const result = processGuess(flop, input.trim())
+      console.log(`${result.message}\n`)
       playRound()
     })
   }
 
-  playRound()
+  return playRound
 }
 
-main()
+export function main(): void {
+  try {
+    const { seed } = parseArgs()
+    const rng = createRNG(seed)
+
+    printIntroduction()
+
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    })
+
+    const playRound = createGameLoop(rng, rl)
+    playRound()
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : 'Unknown error')
+    process.exit(1)
+  }
+}
+
+// Only run main if this file is executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main()
+}
