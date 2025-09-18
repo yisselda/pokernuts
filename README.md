@@ -2,6 +2,12 @@
 
 A minimal TypeScript CLI for practicing poker nuts identification on flop scenarios in Texas Hold'em.
 
+[![CI](https://github.com/yisselda/pokernuts/workflows/CI/badge.svg)](https://github.com/yisselda/pokernuts/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/yisselda/pokernuts/branch/main/graph/badge.svg)](https://codecov.io/gh/yisselda/pokernuts)
+[![npm version](https://badge.fury.io/js/poker-nuts-practice.svg)](https://www.npmjs.com/package/poker-nuts-practice)
+[![Node.js Version](https://img.shields.io/node/v/poker-nuts-practice.svg)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## ♠ ♥ [**Try the Live Demo!**](https://yisselda.github.io/pokernuts/) ♦ ♣
 
 [![Live Demo](https://img.shields.io/badge/🎮_Live_Demo-Try_Now!-brightgreen?style=for-the-badge)](https://yisselda.github.io/pokernuts/)

@@ -177,4 +177,110 @@ describe('Guess validation', () => {
     expect(result3.correct).toBe(false)
     expect(result3.reason).toContain('format')
   })
+
+  it('should return valid nuts patterns for any flop', () => {
+    // Test various flop scenarios
+    const flops = [
+      [
+        { rank: 'J', suit: 'h' },
+        { rank: 'T', suit: 'd' },
+        { rank: '9', suit: 's' },
+      ],
+      [
+        { rank: 'A', suit: 'h' },
+        { rank: 'K', suit: 'h' },
+        { rank: '7', suit: 'h' },
+      ],
+      [
+        { rank: 'A', suit: 's' },
+        { rank: 'A', suit: 'h' },
+        { rank: 'K', suit: 'd' },
+      ],
+      [
+        { rank: '2', suit: 'c' },
+        { rank: '7', suit: 'h' },
+        { rank: 'J', suit: 's' },
+      ],
+    ] as Card[][]
+
+    flops.forEach((flop) => {
+      const nuts = evaluateNuts(flop)
+      expect(nuts.patterns).toBeDefined()
+      expect(nuts.explanation).toBeDefined()
+      expect(nuts.patterns.length).toBeGreaterThan(0)
+      expect(typeof nuts.explanation).toBe('string')
+    })
+  })
+
+  it('should handle edge case board textures', () => {
+    // Test monotone board
+    const monotoneFlop: Card[] = [
+      { rank: 'A', suit: 'h' },
+      { rank: 'K', suit: 'h' },
+      { rank: '7', suit: 'h' },
+    ]
+
+    const nuts = evaluateNuts(monotoneFlop)
+    expect(nuts.patterns.length).toBeGreaterThan(0)
+    expect(nuts.explanation).toBeDefined()
+
+    // Test validation still works
+    const result = validateGuess(monotoneFlop, 'QJ')
+    expect(result.canonicalGuess).toBeDefined()
+  })
+
+  it('should maintain API consistency across different boards', () => {
+    const testFlops = [
+      [
+        { rank: 'A', suit: 's' },
+        { rank: 'A', suit: 'h' },
+        { rank: 'K', suit: 'd' },
+      ],
+      [
+        { rank: '2', suit: 'c' },
+        { rank: '3', suit: 'h' },
+        { rank: '4', suit: 's' },
+      ],
+      [
+        { rank: 'K', suit: 'h' },
+        { rank: 'K', suit: 'd' },
+        { rank: 'K', suit: 's' },
+      ],
+    ] as Card[][]
+
+    testFlops.forEach((flop) => {
+      const nuts = evaluateNuts(flop)
+
+      // API structure consistency
+      expect(nuts).toHaveProperty('patterns')
+      expect(nuts).toHaveProperty('explanation')
+      expect(Array.isArray(nuts.patterns)).toBe(true)
+      expect(typeof nuts.explanation).toBe('string')
+
+      // Validation API consistency
+      const validation = validateGuess(flop, 'AA')
+      expect(validation).toHaveProperty('correct')
+      expect(validation).toHaveProperty('reason')
+      expect(validation).toHaveProperty('canonicalNuts')
+      expect(typeof validation.correct).toBe('boolean')
+    })
+  })
+
+  it('should validate guess format consistency', () => {
+    const flop: Card[] = [
+      { rank: 'A', suit: 'h' },
+      { rank: 'K', suit: 'd' },
+      { rank: 'Q', suit: 's' },
+    ]
+
+    // Test various valid formats
+    const result1 = validateGuess(flop, 'JT')
+    expect(result1.canonicalGuess).toBeDefined()
+
+    const result2 = validateGuess(flop, 'JTo')
+    expect(result2.canonicalGuess).toBeDefined()
+
+    const result3 = validateGuess(flop, 'JhTh')
+    expect(result3.canonicalGuess).toBeDefined()
+  })
 })
