@@ -9,7 +9,12 @@ function parseArgs(): { seed?: number } {
 
   for (const arg of args) {
     if (arg.startsWith('-seed=')) {
-      seed = parseInt(arg.split('=')[1], 10)
+      const seedStr = arg.split('=')[1]
+      if (!seedStr) {
+        console.error('Invalid seed format. Use -seed=NUMBER')
+        process.exit(1)
+      }
+      seed = parseInt(seedStr, 10)
       if (isNaN(seed)) {
         console.error('Invalid seed value')
         process.exit(1)

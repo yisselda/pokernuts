@@ -10,10 +10,23 @@ A minimal TypeScript CLI for practicing poker nuts identification on flop scenar
 - **Smart pattern canonicalization** for suited/offsuit requirements
 - **Test-driven development** with 100% test coverage
 
-## Quick Start
+## Installation
 
+### Global Installation (Recommended)
 ```bash
-# Install dependencies
+npm install -g poker-nuts-practice
+
+# Then run anywhere:
+poker-nuts
+# or
+pokernuts
+```
+
+### Local Development
+```bash
+# Clone and install
+git clone https://github.com/yisselda/pokernuts.git
+cd pokernuts
 npm install
 
 # Run tests

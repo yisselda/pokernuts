@@ -1,15 +1,45 @@
 {
   "name": "poker-nuts-practice",
   "version": "1.0.0",
-  "description": "Minimal CLI for practicing poker nuts identification",
-  "main": "dist/cli.js",
+  "description": "Minimal CLI for practicing poker nuts identification on flop scenarios",
+  "keywords": ["poker", "cli", "nuts", "practice", "typescript", "game"],
+  "author": "yisselda",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yisselda/pokernuts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yisselda/pokernuts/issues"
+  },
+  "homepage": "https://github.com/yisselda/pokernuts#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "poker-nuts": "dist/cli.js",
+    "pokernuts": "dist/cli.js"
+  },
+  "exports": {
+    ".": "./dist/cli.js",
+    "./engine": "./dist/engine.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
+    "build": "tsc",
     "test": "vitest run",
     "dev:test": "vitest",
     "cli": "tsx src/cli.ts",
-    "build": "tsc",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.js",
+    "prepublishOnly": "npm run build && npm test",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
