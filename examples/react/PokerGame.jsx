@@ -45,18 +45,18 @@ export default function PokerGame() {
           </div>
 
           {result && (
-            <div style={{
-              padding: '1rem',
-              backgroundColor: result.correct ? '#d4edda' : '#f8d7da',
-              color: result.correct ? '#155724' : '#721c24',
-              border: `1px solid ${result.correct ? '#c3e6cb' : '#f5c6cb'}`,
-              borderRadius: '4px'
-            }}>
+            <div
+              style={{
+                padding: '1rem',
+                backgroundColor: result.correct ? '#d4edda' : '#f8d7da',
+                color: result.correct ? '#155724' : '#721c24',
+                border: `1px solid ${result.correct ? '#c3e6cb' : '#f5c6cb'}`,
+                borderRadius: '4px',
+              }}
+            >
               <strong>{result.correct ? '✅ Correct!' : '❌ Incorrect'}</strong>
               <p>{result.reason}</p>
-              {!result.correct && (
-                <p>Nuts: {result.canonicalNuts.join(', ')}</p>
-              )}
+              {!result.correct && <p>Nuts: {result.canonicalNuts.join(', ')}</p>}
             </div>
           )}
         </div>

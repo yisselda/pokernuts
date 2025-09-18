@@ -5,6 +5,7 @@ Working examples showing how to use `poker-nuts-practice` in different environme
 ## 📁 Available Examples
 
 ### `react/` - React Web App
+
 Complete React component with interactive UI for poker nuts practice.
 
 ```bash
@@ -14,6 +15,7 @@ npm run dev
 ```
 
 ### `react-native/` - React Native Mobile App
+
 React Native component for mobile poker nuts practice.
 
 ```jsx
@@ -22,6 +24,7 @@ import PokerApp from './PokerApp'
 ```
 
 ### `node-script/` - Node.js Bot
+
 Simple bot that deals flops and shows nuts automatically.
 
 ```bash
@@ -31,6 +34,7 @@ npm start
 ```
 
 ### `custom-cli/` - Custom CLI Implementation
+
 Example of building your own CLI using the poker engine.
 
 ## 🚀 Quick Start

@@ -6,7 +6,7 @@ import {
   validateGuess,
   formatCard,
   parseCard,
-  type Card
+  type Card,
 } from '../src/engine.js'
 
 describe('Card parsing and formatting', () => {
@@ -56,7 +56,7 @@ describe('Nuts evaluation', () => {
     const flop: Card[] = [
       { rank: 'A', suit: 'h' },
       { rank: 'K', suit: 'h' },
-      { rank: 'Q', suit: 'h' }
+      { rank: 'Q', suit: 'h' },
     ]
 
     const result = evaluateNuts(flop)
@@ -68,7 +68,7 @@ describe('Nuts evaluation', () => {
     const flop: Card[] = [
       { rank: '7', suit: 'c' },
       { rank: '7', suit: 'd' },
-      { rank: '2', suit: 's' }
+      { rank: '2', suit: 's' },
     ]
 
     const result = evaluateNuts(flop)
@@ -80,7 +80,7 @@ describe('Nuts evaluation', () => {
     const flop: Card[] = [
       { rank: '9', suit: 'h' },
       { rank: 'T', suit: 'd' },
-      { rank: 'J', suit: 'c' }
+      { rank: 'J', suit: 'c' },
     ]
 
     const result = evaluateNuts(flop)
@@ -92,7 +92,7 @@ describe('Nuts evaluation', () => {
     const flop: Card[] = [
       { rank: '2', suit: 'h' },
       { rank: '3', suit: 'h' },
-      { rank: '4', suit: 'h' }
+      { rank: '4', suit: 'h' },
     ]
 
     const result = evaluateNuts(flop)
@@ -106,7 +106,7 @@ describe('Guess validation', () => {
     const flop: Card[] = [
       { rank: 'A', suit: 'h' },
       { rank: 'K', suit: 'h' },
-      { rank: 'Q', suit: 'h' }
+      { rank: 'Q', suit: 'h' },
     ]
 
     const result1 = validateGuess(flop, 'JTh')
@@ -120,7 +120,7 @@ describe('Guess validation', () => {
     const flop: Card[] = [
       { rank: 'A', suit: 'h' },
       { rank: 'K', suit: 'h' },
-      { rank: 'Q', suit: 'h' }
+      { rank: 'Q', suit: 'h' },
     ]
 
     const result = validateGuess(flop, 'JTs')
@@ -131,7 +131,7 @@ describe('Guess validation', () => {
     const flop: Card[] = [
       { rank: '7', suit: 'c' },
       { rank: '7', suit: 'd' },
-      { rank: '2', suit: 's' }
+      { rank: '2', suit: 's' },
     ]
 
     const result1 = validateGuess(flop, '77')
@@ -145,7 +145,7 @@ describe('Guess validation', () => {
     const flop: Card[] = [
       { rank: '9', suit: 'h' },
       { rank: 'T', suit: 'd' },
-      { rank: 'J', suit: 'c' }
+      { rank: 'J', suit: 'c' },
     ]
 
     const result1 = validateGuess(flop, 'KQo')
@@ -162,7 +162,7 @@ describe('Guess validation', () => {
     const flop: Card[] = [
       { rank: 'A', suit: 'h' },
       { rank: 'K', suit: 'd' },
-      { rank: 'Q', suit: 's' }
+      { rank: 'Q', suit: 's' },
     ]
 
     const result1 = validateGuess(flop, 'ZZ')

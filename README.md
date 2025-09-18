@@ -64,45 +64,35 @@ Use the poker engine in your own applications:
 ### React/React Native
 
 ```jsx
-import {
-  createRNG,
-  dealFlop,
-  evaluateNuts,
-  validateGuess,
-} from "poker-nuts-practice/engine";
+import { createRNG, dealFlop, evaluateNuts, validateGuess } from 'poker-nuts-practice/engine'
 
 function PokerGame() {
-  const [rng] = useState(() => createRNG());
-  const [flop, setFlop] = useState([]);
+  const [rng] = useState(() => createRNG())
+  const [flop, setFlop] = useState([])
 
-  const dealNewFlop = () => setFlop(dealFlop(rng));
+  const dealNewFlop = () => setFlop(dealFlop(rng))
 
   const handleGuess = (guess) => {
-    const result = validateGuess(flop, guess);
+    const result = validateGuess(flop, guess)
     // result.correct, result.reason, result.canonicalNuts
-    return result;
-  };
+    return result
+  }
 
-  return <YourPokerUI />;
+  return <YourPokerUI />
 }
 ```
 
 ### Node.js/Custom CLI
 
 ```js
-import {
-  createRNG,
-  dealFlop,
-  evaluateNuts,
-  formatCard,
-} from "poker-nuts-practice/engine";
+import { createRNG, dealFlop, evaluateNuts, formatCard } from 'poker-nuts-practice/engine'
 
-const rng = createRNG(42); // Optional seed for deterministic results
-const flop = dealFlop(rng);
-const nuts = evaluateNuts(flop);
+const rng = createRNG(42) // Optional seed for deterministic results
+const flop = dealFlop(rng)
+const nuts = evaluateNuts(flop)
 
-console.log(`Flop: ${flop.map(formatCard).join(" ")}`);
-console.log(`Nuts: ${nuts.patterns.join(", ")} (${nuts.explanation})`);
+console.log(`Flop: ${flop.map(formatCard).join(' ')}`)
+console.log(`Nuts: ${nuts.patterns.join(', ')} (${nuts.explanation})`)
 ```
 
 ### Available Functions

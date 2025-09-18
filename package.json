@@ -43,12 +43,20 @@
     "dev:test": "vitest",
     "cli": "tsx src/cli.ts",
     "start": "node dist/cli.js",
-    "prepublishOnly": "npm run build && npm test",
-    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run format:check && npm run lint && npm run build && npm test",
+    "lint": "eslint . && tsc --noEmit",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "clean": "rm -rf dist"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.6.2",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",
     "vitest": "^3.2.4"

@@ -32,9 +32,7 @@ export default function PokerApp() {
 
       {flop.length > 0 && (
         <View style={styles.gameArea}>
-          <Text style={styles.flop}>
-            Flop: {flop.map(formatCard).join(' ')}
-          </Text>
+          <Text style={styles.flop}>Flop: {flop.map(formatCard).join(' ')}</Text>
 
           <TextInput
             style={styles.input}
@@ -49,21 +47,15 @@ export default function PokerApp() {
           </TouchableOpacity>
 
           {result && (
-            <View style={[
-              styles.result,
-              { backgroundColor: result.correct ? '#d4edda' : '#f8d7da' }
-            ]}>
-              <Text style={[
-                styles.resultText,
-                { color: result.correct ? '#155724' : '#721c24' }
-              ]}>
+            <View
+              style={[styles.result, { backgroundColor: result.correct ? '#d4edda' : '#f8d7da' }]}
+            >
+              <Text style={[styles.resultText, { color: result.correct ? '#155724' : '#721c24' }]}>
                 {result.correct ? '✅ Correct!' : '❌ Incorrect'}
               </Text>
               <Text style={styles.reason}>{result.reason}</Text>
               {!result.correct && (
-                <Text style={styles.nuts}>
-                  Nuts: {result.canonicalNuts.join(', ')}
-                </Text>
+                <Text style={styles.nuts}>Nuts: {result.canonicalNuts.join(', ')}</Text>
               )}
             </View>
           )}

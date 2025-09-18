@@ -35,7 +35,7 @@ function main() {
 
   const rl = createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   })
 
   function playRound() {

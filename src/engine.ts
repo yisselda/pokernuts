@@ -1,5 +1,5 @@
 export type Suit = 'h' | 'd' | 'c' | 's'
-export type Rank = '2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'T'|'J'|'Q'|'K'|'A'
+export type Rank = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'T' | 'J' | 'Q' | 'K' | 'A'
 export type Card = { rank: Rank; suit: Suit }
 
 export interface RNG {
@@ -8,14 +8,16 @@ export interface RNG {
   randInt: (n: number) => number
 }
 
-const RANKS: Rank[] = ['2','3','4','5','6','7','8','9','T','J','Q','K','A']
-const SUITS: Suit[] = ['h','d','c','s']
+const RANKS: Rank[] = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
+const SUITS: Suit[] = ['h', 'd', 'c', 's']
 
 export function createRNG(initialSeed?: number): RNG {
   let seed = initialSeed ?? Date.now()
 
   return {
-    seed: (n: number) => { seed = n },
+    seed: (n: number) => {
+      seed = n
+    },
     next: () => {
       seed = (seed * 1664525 + 1013904223) >>> 0
       return seed / 0x100000000
@@ -23,7 +25,7 @@ export function createRNG(initialSeed?: number): RNG {
     randInt: (n: number) => {
       seed = (seed * 1664525 + 1013904223) >>> 0
       return Math.floor((seed / 0x100000000) * n)
-    }
+    },
   }
 }
 
@@ -80,14 +82,14 @@ const HAND_TYPES = {
   FLUSH: 5,
   FULL_HOUSE: 6,
   FOUR_KIND: 7,
-  STRAIGHT_FLUSH: 8
+  STRAIGHT_FLUSH: 8,
 }
 
 export function evaluateHand(cards: Card[]): [HandType, ...number[]] {
   if (cards.length !== 5) throw new Error('Hand must have exactly 5 cards')
 
-  const ranks = cards.map(c => getRankValue(c.rank))
-  const suits = cards.map(c => c.suit)
+  const ranks = cards.map((c) => getRankValue(c.rank))
+  const suits = cards.map((c) => c.suit)
 
   const rankCounts = new Map<number, number>()
   const suitCounts = new Map<Suit, number>()
@@ -107,7 +109,13 @@ export function evaluateHand(cards: Card[]): [HandType, ...number[]] {
   let straightHigh = -1
 
   if (uniqueRanks.length === 5) {
-    if (uniqueRanks[0] === 12 && uniqueRanks[1] === 3 && uniqueRanks[2] === 2 && uniqueRanks[3] === 1 && uniqueRanks[4] === 0) {
+    if (
+      uniqueRanks[0] === 12 &&
+      uniqueRanks[1] === 3 &&
+      uniqueRanks[2] === 2 &&
+      uniqueRanks[3] === 1 &&
+      uniqueRanks[4] === 0
+    ) {
       isStraight = true
       straightHigh = 3
     } else if (uniqueRanks[0] - uniqueRanks[4] === 4) {
@@ -161,7 +169,7 @@ function compareHands(hand1: [HandType, ...number[]], hand2: [HandType, ...numbe
 export function getRemainingDeck(flop: Card[]): Card[] {
   const deck = createDeck()
   const flopSet = new Set(flop.map(formatCard))
-  return deck.filter(card => !flopSet.has(formatCard(card)))
+  return deck.filter((card) => !flopSet.has(formatCard(card)))
 }
 
 export function getAllTwoCardCombos(deck: Card[]): Card[][] {
@@ -194,13 +202,21 @@ export function evaluateNuts(flop: Card[]): { patterns: string[]; explanation: s
     }
   }
 
-  const patterns = canonicalizePatterns(bestCombos, flop, bestHand!)
-  const explanation = getHandExplanation(bestHand!)
+  if (!bestHand) {
+    throw new Error('No valid hand found')
+  }
+
+  const patterns = canonicalizePatterns(bestCombos, flop, bestHand)
+  const explanation = getHandExplanation(bestHand)
 
   return { patterns, explanation }
 }
 
-function canonicalizePatterns(combos: Card[][], flop: Card[], handValue: [HandType, ...number[]]): string[] {
+function canonicalizePatterns(
+  combos: Card[][],
+  flop: Card[],
+  handValue: [HandType, ...number[]]
+): string[] {
   const patterns = new Set<string>()
   const handType = handValue[0]
 
@@ -304,7 +320,10 @@ function getHandExplanation(handValue: [HandType, ...number[]]): string {
   }
 }
 
-export function validateGuess(flop: Card[], guess: string): {
+export function validateGuess(
+  flop: Card[],
+  guess: string
+): {
   correct: boolean
   reason: string
   canonicalGuess?: string
@@ -320,13 +339,13 @@ export function validateGuess(flop: Card[], guess: string): {
       correct: isCorrect,
       reason: isCorrect ? 'Correct!' : `Incorrect. Nuts: ${nutsResult.patterns.join(', ')}`,
       canonicalGuess,
-      canonicalNuts: nutsResult.patterns
+      canonicalNuts: nutsResult.patterns,
     }
   } catch (error) {
     return {
       correct: false,
       reason: `Invalid format. ${(error as Error).message}`,
-      canonicalNuts: nutsResult.patterns
+      canonicalNuts: nutsResult.patterns,
     }
   }
 }
@@ -381,8 +400,12 @@ function parseGuess(guess: string, flop: Card[]): string {
     const rank2 = cleaned[2] as Rank
     const suit2 = cleaned[3].toLowerCase() as Suit
 
-    if (!RANKS.includes(rank1) || !SUITS.includes(suit1) ||
-        !RANKS.includes(rank2) || !SUITS.includes(suit2)) {
+    if (
+      !RANKS.includes(rank1) ||
+      !SUITS.includes(suit1) ||
+      !RANKS.includes(rank2) ||
+      !SUITS.includes(suit2)
+    ) {
       throw new Error("Guess must be like 'AA', 'KQs', 'A5o', or exact 'AhQh'")
     }
 
