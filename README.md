@@ -53,6 +53,18 @@ npm run cli -- -seed=12345
 4. Get instant feedback with explanations
 5. Type 'q' to quit
 
+## Card Notation
+
+Cards use standard poker notation:
+- **Ranks**: 2, 3, 4, 5, 6, 7, 8, 9, **T** (Ten), J, Q, K, A
+- **Suits**: h (hearts), d (diamonds), c (clubs), s (spades)
+
+Examples:
+- `Th` = Ten of hearts
+- `JT` = Jack-Ten (any suits)
+- `JTs` = Jack-Ten suited
+- `JTo` = Jack-Ten offsuit
+
 ## Example Session
 
 ```
