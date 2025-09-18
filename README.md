@@ -17,8 +17,6 @@ A minimal TypeScript CLI for practicing poker nuts identification on flop scenar
 npm install -g poker-nuts-practice
 
 # Then run anywhere:
-poker-nuts
-# or
 pokernuts
 ```
 
