@@ -333,7 +333,13 @@ export function validateGuess(
 
   try {
     const canonicalGuess = parseGuess(guess, flop)
-    const isCorrect = nutsResult.patterns.includes(canonicalGuess)
+
+    // Check if guess matches any nuts pattern
+    // For 2-rank guesses like "T7", check if T7o or T7s is in nuts
+    const isCorrect =
+      nutsResult.patterns.includes(canonicalGuess) ||
+      (canonicalGuess.length === 2 &&
+        nutsResult.patterns.some((pattern) => pattern.startsWith(canonicalGuess)))
 
     return {
       correct: isCorrect,

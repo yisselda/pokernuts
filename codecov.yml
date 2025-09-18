@@ -11,17 +11,17 @@ coverage:
         threshold: 1%
 
 comment:
-  layout: "header, diff, flags, components"
+  layout: 'header, diff, flags, components'
   behavior: default
   require_changes: false
   require_base: no
   require_head: yes
 
 ignore:
-  - "examples/"
-  - "docs/"
-  - "dist/"
-  - "coverage/"
-  - "*.config.js"
-  - "*.config.ts"
-  - "eslint.config.js"
+  - 'examples/'
+  - 'docs/'
+  - 'dist/'
+  - 'coverage/'
+  - '*.config.js'
+  - '*.config.ts'
+  - 'eslint.config.js'

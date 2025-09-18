@@ -283,4 +283,75 @@ describe('Guess validation', () => {
     const result3 = validateGuess(flop, 'JhTh')
     expect(result3.canonicalGuess).toBeDefined()
   })
+
+  it('should handle four-card format guesses', () => {
+    const flop: Card[] = [
+      { rank: 'A', suit: 'h' },
+      { rank: 'K', suit: 'd' },
+      { rank: 'Q', suit: 's' },
+    ]
+
+    // Test exact four-card format like "AhQh"
+    const result1 = validateGuess(flop, 'JhTh')
+    expect(result1.canonicalGuess).toBe('JTs')
+
+    // Test invalid rank in four-card format
+    const invalidRankResult = validateGuess(flop, 'ZhTh')
+    expect(invalidRankResult.correct).toBe(false)
+    expect(invalidRankResult.reason).toContain('Invalid format')
+
+    // Test invalid suit in four-card format
+    const invalidSuitResult = validateGuess(flop, 'JxTh')
+    expect(invalidSuitResult.correct).toBe(false)
+    expect(invalidSuitResult.reason).toContain('Invalid format')
+
+    // Test pocket pair in four-card format
+    const result2 = validateGuess(flop, 'AhAs')
+    expect(result2.canonicalGuess).toBe('AA')
+
+    // Test offsuit in four-card format
+    const result3 = validateGuess(flop, 'JhTs')
+    expect(result3.canonicalGuess).toBe('JTo')
+  })
+
+  it('should accept two-rank guesses when both suited and offsuit are nuts', () => {
+    // Rainbow straight board where T7 (both suited/offsuit) is nuts
+    const flop: Card[] = [
+      { rank: '9', suit: 'd' },
+      { rank: '8', suit: 's' },
+      { rank: '6', suit: 'h' },
+    ]
+
+    // User entering just "T7" should be accepted when both T7o and T7s are nuts
+    const result = validateGuess(flop, 'T7')
+    expect(result.correct).toBe(true)
+    expect(result.canonicalGuess).toBe('T7')
+    expect(result.canonicalNuts).toContain('T7o')
+    expect(result.canonicalNuts).toContain('T7s')
+  })
+
+  it('should normalize card pairs to consistent order', () => {
+    // Test that card order doesn't matter for input
+    const testCases = [
+      { input1: 'AK', input2: 'KA', expected: 'AK' },
+      { input1: '98', input2: '89', expected: '98' },
+      { input1: 'JT', input2: 'TJ', expected: 'JT' },
+      { input1: 'A2', input2: '2A', expected: 'A2' },
+    ]
+
+    const flop: Card[] = [
+      { rank: '7', suit: 'c' },
+      { rank: '8', suit: 'd' },
+      { rank: '9', suit: 's' },
+    ]
+
+    testCases.forEach(({ input1, input2, expected }) => {
+      const result1 = validateGuess(flop, input1)
+      const result2 = validateGuess(flop, input2)
+
+      expect(result1.canonicalGuess).toBe(expected)
+      expect(result2.canonicalGuess).toBe(expected)
+      expect(result1.correct).toBe(result2.correct)
+    })
+  })
 })

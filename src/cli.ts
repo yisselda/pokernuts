@@ -44,7 +44,10 @@ export function isEmptyInput(input: string): boolean {
   return input.trim() === ''
 }
 
-export function processGuess(flop: Card[], guess: string): {
+export function processGuess(
+  flop: Card[],
+  guess: string
+): {
   correct: boolean
   message: string
 } {
@@ -53,17 +56,20 @@ export function processGuess(flop: Card[], guess: string): {
   if (result.correct) {
     return {
       correct: true,
-      message: `✅ Correct! ${result.reason}`
+      message: `✅ Correct! ${result.reason}`,
     }
   } else {
     return {
       correct: false,
-      message: `❌ ${result.reason}`
+      message: `❌ ${result.reason}`,
     }
   }
 }
 
-export function createGameLoop(rng: RNG, rl: any): () => void {
+export function createGameLoop(
+  rng: RNG,
+  rl: { question: (query: string, callback: (answer: string) => void) => void; close: () => void }
+): () => void {
   function playRound(): void {
     const flop = dealFlop(rng)
     console.log(formatFlopDisplay(flop))
