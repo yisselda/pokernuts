@@ -2,12 +2,19 @@
   "name": "poker-nuts-practice",
   "version": "1.0.0",
   "description": "Minimal CLI for practicing poker nuts identification on flop scenarios",
-  "keywords": ["poker", "cli", "nuts", "practice", "typescript", "game"],
+  "keywords": [
+    "poker",
+    "cli",
+    "nuts",
+    "practice",
+    "typescript",
+    "game"
+  ],
   "author": "yisselda",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yisselda/pokernuts.git"
+    "url": "git+https://github.com/yisselda/pokernuts.git"
   },
   "bugs": {
     "url": "https://github.com/yisselda/pokernuts/issues"
