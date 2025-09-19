@@ -133,3 +133,35 @@ npm run build
 # Run built JavaScript
 npm start
 ```
+
+### Contributing
+
+This project uses automated versioning and changelog generation. Please use conventional commit messages:
+
+```bash
+# Features
+git commit -m "feat: add new poker hand evaluation"
+
+# Bug fixes
+git commit -m "fix: correct straight flush detection"
+
+# Documentation
+git commit -m "docs: update API examples"
+
+# Tests
+git commit -m "test: add edge case coverage"
+
+# Refactoring
+git commit -m "refactor: simplify nuts calculation"
+
+# Performance
+git commit -m "perf: optimize flop generation"
+
+# CI/Build
+git commit -m "ci: update Node.js versions"
+
+# Chores
+git commit -m "chore: update dependencies"
+```
+
+Commits to `main` automatically trigger release creation when appropriate.

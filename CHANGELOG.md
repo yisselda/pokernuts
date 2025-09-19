@@ -9,16 +9,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Comprehensive CI/CD pipeline with Node.js 18, 20, 22 test matrix
-- Test coverage reporting with 90% thresholds
-- Automated release workflow
-- Security audit checks in CI
+- Comprehensive CI/CD pipeline with Node.js 20, 22, 24 test matrix
+- Test coverage reporting with 90% thresholds and Codecov integration
+- Automated release workflow with semantic versioning
+- Security audit checks in CI pipeline
 - Coverage badges and build status indicators
+- Comprehensive CLI unit tests (28 tests covering all functionality)
+- Enhanced test suite with realistic poker edge cases
+- CHANGELOG.md with API stability guarantees and versioning policy
+- Professional status badges (CI, coverage, npm, Node.js, license)
 
 ### Changed
 
 - Enhanced package scripts for better development workflow
-- Improved test configuration with coverage thresholds
+- Improved test configuration with coverage thresholds and exclusions
+- Pinned all dependency versions for reproducible builds
+- Updated Node.js requirement to 20+ (latest LTS)
+- Refactored CLI to export testable functions for better unit testing
+
+### Fixed
+
+- **Major bug**: Two-rank guesses (e.g., "7T") now correctly match suited/offsuit nuts patterns
+- Card order normalization now properly handles both "7T" and "T7" as equivalent inputs
+- Pattern matching logic improved to accept general guesses when both suited/offsuit are nuts
+- TypeScript type safety improvements (removed `any` types)
+
+### Technical Improvements
+
+- Test coverage increased from 56% to 91.59% overall
+- CLI coverage boosted from 0% to 97.84%
+- Engine coverage improved to 89.97%
+- Added 49 comprehensive tests covering core functionality and edge cases
+- Enhanced error handling and input validation
+- Improved code formatting and linting enforcement
 
 ## [1.0.3] - 2024-01-XX
 

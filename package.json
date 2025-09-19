@@ -52,6 +52,21 @@
     "format:check": "prettier --check .",
     "clean": "rm -rf dist coverage"
   },
+  "release-please": {
+    "release-type": "node",
+    "package-name": "poker-nuts-practice",
+    "changelog-sections": [
+      {"type": "feat", "section": "Features"},
+      {"type": "fix", "section": "Bug Fixes"},
+      {"type": "docs", "section": "Documentation"},
+      {"type": "style", "section": "Styles"},
+      {"type": "refactor", "section": "Code Refactoring"},
+      {"type": "perf", "section": "Performance Improvements"},
+      {"type": "test", "section": "Tests"},
+      {"type": "ci", "section": "Continuous Integration"},
+      {"type": "chore", "section": "Miscellaneous Chores"}
+    ]
+  },
   "devDependencies": {
     "@types/node": "20.17.6",
     "@typescript-eslint/eslint-plugin": "8.44.0",
